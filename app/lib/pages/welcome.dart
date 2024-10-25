@@ -1,4 +1,5 @@
 import 'package:app/components/button.dart';
+import 'package:app/pages/account/login.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -32,8 +33,12 @@ class _WelcomePage extends State<WelcomePage> {
               ],
             ),
           ),
-          const Button(
+          Button(
             buttonText: "Get Started",
+            onButtonClick: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
+            },
           )
         ],
       )),
