@@ -26,9 +26,13 @@ class MyApp extends StatelessWidget {
             style: ElevatedButton.styleFrom(
                 foregroundColor: const Color(0xFFFFFFFF),
                 backgroundColor: const Color(0xFF1A80E5))),
-        appBarTheme: const AppBarTheme(
-            color: Color(0xFF121A21),
-            iconTheme: IconThemeData(color: Color(0xFFFFFFFF))),
+        appBarTheme: AppBarTheme(
+            color: const Color(0xFF121A21),
+            titleTextStyle: GoogleFonts.spaceGrotesk(
+                color: const Color(0xFFBBBEC0),
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
+            iconTheme: const IconThemeData(color: Color(0xFFFFFFFF))),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: const Color(0xFF233545),
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
         ),
+        splashColor: Colors.transparent,
         textTheme: TextTheme(
             bodyLarge: GoogleFonts.spaceGrotesk(
                 fontWeight: FontWeight.bold,
