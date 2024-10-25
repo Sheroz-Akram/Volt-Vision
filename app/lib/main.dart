@@ -33,6 +33,13 @@ class MyApp extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold),
             iconTheme: const IconThemeData(color: Color(0xFFFFFFFF))),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: const Color(0xFF1A2632),
+            unselectedItemColor: const Color(0xFF5D7185),
+            unselectedLabelStyle: GoogleFonts.inter(),
+            selectedItemColor: const Color(0xFF91979C),
+            selectedLabelStyle: GoogleFonts.inter(),
+            enableFeedback: false),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: const Color(0xFF233545),

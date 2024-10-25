@@ -1,6 +1,7 @@
 import 'package:app/components/button.dart';
 import 'package:app/components/input.dart';
 import 'package:app/pages/account/signup.dart';
+import 'package:app/pages/dashboard/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -87,6 +88,10 @@ class _LoginPage extends State<LoginPage> {
                   buttonText: "Log In",
                   onButtonClick: () {
                     // Perform Login
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
                   }),
               InkWell(
                 onTap: () {
