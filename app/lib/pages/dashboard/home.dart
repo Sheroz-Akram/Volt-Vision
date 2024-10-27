@@ -1,3 +1,5 @@
+import 'package:app/pages/dashboard/dashboard.dart';
+import 'package:app/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,11 +13,14 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   // Define the pages for each tab
-  static const List<Widget> _pages = <Widget>[
-    Center(child: Text("Home", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Usage", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Statements", style: TextStyle(fontSize: 24))),
-    Center(child: Text("Settings", style: TextStyle(fontSize: 24))),
+  static const _pages = [
+    {"title": "Home", "page": DashBoardPage()},
+    {"title": "Usage", "page": Text("Usage", style: TextStyle(fontSize: 24))},
+    {
+      "title": "Billing Statements",
+      "page": Text("Statement", style: TextStyle(fontSize: 24))
+    },
+    {"title": "Settings", "page": SettingsPage()}
   ];
 
   void _onItemTapped(int index) {
@@ -28,9 +33,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Home Page"),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Text(_pages[_selectedIndex]['title'] as String),
         ),
-        body: _pages[_selectedIndex],
+        body: SingleChildScrollView(
+            child: _pages[_selectedIndex]['page'] as Widget),
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
               highlightColor: Colors.transparent,

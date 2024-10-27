@@ -64,6 +64,10 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold),
             bodySmall: GoogleFonts.spaceGrotesk(
                 color: const Color(0xFFFFFFFF), fontSize: 15),
+            labelSmall: GoogleFonts.inter(
+                color: const Color(0xFF83898D),
+                fontSize: 15,
+                fontWeight: FontWeight.bold),
             labelMedium: GoogleFonts.spaceGrotesk(
                 color: const Color(0xFF94ADC7), fontSize: 15)),
         useMaterial3: true,
