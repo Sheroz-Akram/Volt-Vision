@@ -33,11 +33,11 @@ class _LoginPage extends State<LoginPage> {
               ),
             ],
           ),
-          body: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(10.0),
-                child: Column(
+          body: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              children: [
+                Column(
                   children: [
                     Text(
                       "Welcome to the future of energy",
@@ -53,25 +53,22 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ],
                 ),
-              ),
-              TextInput(
-                hintText: "Email Address",
-                controller: emailController,
-              ),
-              TextInput(
-                hintText: "Password",
-                controller: passwordController,
-                isPassword: true,
-                displayPassword: displayPassword,
-                toggleDisplayPassword: () {
-                  setState(() {
-                    displayPassword = !displayPassword;
-                  });
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Align(
+                TextInput(
+                  hintText: "Email Address",
+                  controller: emailController,
+                ),
+                TextInput(
+                  hintText: "Password",
+                  controller: passwordController,
+                  isPassword: true,
+                  displayPassword: displayPassword,
+                  toggleDisplayPassword: () {
+                    setState(() {
+                      displayPassword = !displayPassword;
+                    });
+                  },
+                ),
+                Align(
                   alignment: Alignment.centerLeft,
                   child: InkWell(
                     onTap: () {
@@ -83,29 +80,29 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                 ),
-              ),
-              Button(
-                  buttonText: "Log In",
-                  onButtonClick: () {
-                    // Perform Login
+                Button(
+                    buttonText: "Log In",
+                    onButtonClick: () {
+                      // Perform Login
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                    }),
+                InkWell(
+                  onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()));
-                  }),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpPage()));
-                },
-                child: Text(
-                  "Sign Up",
-                  style: Theme.of(context).textTheme.labelMedium,
+                            builder: (context) => const SignUpPage()));
+                  },
+                  child: Text(
+                    "Sign Up",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:app/components/iconRow.dart';
+import 'package:app/pages/capture/guide.dart';
 import 'package:flutter/material.dart';
 
 class DashBoardPage extends StatefulWidget {
@@ -28,7 +29,10 @@ class _DashBoardPage extends State<DashBoardPage> {
           IconRow(
             icon: Icons.camera_alt_outlined,
             title: "Scan Meter",
-            onClick: () {},
+            onClick: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const GuidePage()));
+            },
           ),
           IconRow(
               icon: Icons.history_rounded,

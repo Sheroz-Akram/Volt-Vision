@@ -16,7 +16,7 @@ class TextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
         width: MediaQuery.of(context).size.width,
         child: TextField(
           controller: controller,

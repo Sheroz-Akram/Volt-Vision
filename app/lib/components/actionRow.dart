@@ -7,7 +7,7 @@ class ActionRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
+      highlightColor: const Color(0xFF1A2632),
       onTap: () {},
       child: Container(
         padding: const EdgeInsets.only(top: 15, bottom: 15),

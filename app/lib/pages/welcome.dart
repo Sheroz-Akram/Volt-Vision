@@ -29,17 +29,19 @@ class _WelcomePage extends State<WelcomePage> {
                   "Get insights into your energy usage and save on your bill.",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodySmall,
+                ),
+                Button(
+                  buttonText: "Get Started",
+                  onButtonClick: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
+                  },
                 )
               ],
             ),
           ),
-          Button(
-            buttonText: "Get Started",
-            onButtonClick: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()));
-            },
-          )
         ],
       )),
     );

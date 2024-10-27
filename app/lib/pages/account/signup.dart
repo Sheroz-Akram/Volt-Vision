@@ -28,38 +28,42 @@ class _SignUpPage extends State<SignUpPage> {
             automaticallyImplyLeading: true,
             actions: const [],
           ),
-          body: Column(
-            children: [
-              TextInput(hintText: "Your Name", controller: nameController),
-              TextInput(hintText: "Email Address", controller: emailController),
-              TextInput(
-                hintText: "Create Password",
-                controller: passwordController,
-                isPassword: true,
-                displayPassword: displayPassword,
-                toggleDisplayPassword: () {
-                  setState(() {
-                    displayPassword = !displayPassword;
-                  });
-                },
-              ),
-              TextInput(
-                hintText: "Confirm Password",
-                controller: confirmPasswordController,
-                isPassword: true,
-                displayPassword: displayPassword,
-                toggleDisplayPassword: () {
-                  setState(() {
-                    displayPassword = !displayPassword;
-                  });
-                },
-              ),
-              Button(
-                  buttonText: "Sign Up",
-                  onButtonClick: () {
-                    // Perform Sign Up
-                  }),
-            ],
+          body: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              children: [
+                TextInput(hintText: "Your Name", controller: nameController),
+                TextInput(
+                    hintText: "Email Address", controller: emailController),
+                TextInput(
+                  hintText: "Create Password",
+                  controller: passwordController,
+                  isPassword: true,
+                  displayPassword: displayPassword,
+                  toggleDisplayPassword: () {
+                    setState(() {
+                      displayPassword = !displayPassword;
+                    });
+                  },
+                ),
+                TextInput(
+                  hintText: "Confirm Password",
+                  controller: confirmPasswordController,
+                  isPassword: true,
+                  displayPassword: displayPassword,
+                  toggleDisplayPassword: () {
+                    setState(() {
+                      displayPassword = !displayPassword;
+                    });
+                  },
+                ),
+                Button(
+                    buttonText: "Sign Up",
+                    onButtonClick: () {
+                      // Perform Sign Up
+                    }),
+              ],
+            ),
           )),
     );
   }

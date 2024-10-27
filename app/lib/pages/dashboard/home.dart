@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   // Define the pages for each tab
   static const _pages = [
-    {"title": "Home", "page": DashBoardPage()},
+    {"title": "Dashboard", "page": DashBoardPage()},
     {"title": "Usage", "page": Text("Usage", style: TextStyle(fontSize: 24))},
     {
       "title": "Billing Statements",
