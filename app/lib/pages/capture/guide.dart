@@ -70,18 +70,19 @@ class _GuidePage extends State<GuidePage> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                Button(
-                    buttonText: "Scan",
-                    onButtonClick: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ScanPage()));
-                    })
               ],
             ),
           )
         ],
+      ),
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Button(
+            buttonText: "Scan",
+            onButtonClick: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const ScanPage()));
+            }),
       ),
     );
   }

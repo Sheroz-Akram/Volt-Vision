@@ -1,4 +1,6 @@
 import 'package:app/components/button.dart';
+import 'package:app/components/progressBar.dart';
+import 'package:app/pages/capture/process.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -118,10 +120,21 @@ class _ScanPage extends State<ScanPage> {
                         ),
                       ),
               ),
-              Button(buttonText: "Start Scanning", onButtonClick: () {})
+              const ProgressBar(
+                percentage: 0.62,
+              ),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Button(
+            buttonText: "Start Scanning",
+            onButtonClick: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const ProcessPage()));
+            }),
       ),
     );
   }
