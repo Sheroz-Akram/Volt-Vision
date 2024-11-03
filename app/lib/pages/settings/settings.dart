@@ -1,4 +1,6 @@
+import 'package:app/classes/user.dart';
 import 'package:app/components/actionRow.dart';
+import 'package:app/pages/welcome.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,6 +13,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPage extends State<SettingsPage> {
+  final User user = User();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,26 +25,43 @@ class _SettingsPage extends State<SettingsPage> {
             "Account",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          const ActionRow(title: "Profile"),
+          ActionRow(
+            title: "Profile",
+            onClick: () {},
+          ),
+          ActionRow(
+            title: "Logout",
+            onClick: () async {
+              user.logout();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const WelcomePage()),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
           Text(
             "Notifications",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          const ActionRow(
+          ActionRow(
             title: "Push Notifications",
+            onClick: () {},
           ),
           Text(
             "About",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          const ActionRow(
+          ActionRow(
             title: "Privacy Policy",
+            onClick: () {},
           ),
-          const ActionRow(
+          ActionRow(
             title: "Terms of Service",
+            onClick: () {},
           ),
-          const ActionRow(
+          ActionRow(
             title: "Help Center",
+            onClick: () {},
           )
         ],
       ),

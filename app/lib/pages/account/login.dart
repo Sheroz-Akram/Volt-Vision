@@ -1,8 +1,11 @@
+import 'package:app/classes/user.dart';
 import 'package:app/components/button.dart';
 import 'package:app/components/input.dart';
 import 'package:app/pages/account/signup.dart';
 import 'package:app/pages/dashboard/home.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/snackBarDisplay.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,6 +19,29 @@ class _LoginPage extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool displayPassword = false;
+
+  final User user = User();
+
+  // Signup function that uses validation class
+  void login() async {
+    final String email = emailController.text;
+    final String password = passwordController.text;
+
+    // Use to Display Errors
+    final snackBarDisplay = SnackBarDisplay(context: context);
+
+    var response = await user.login(email, password);
+    if (response != null) {
+      snackBarDisplay.showError(response);
+    } else {
+      snackBarDisplay.showSuccess("Login Successfully");
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +110,7 @@ class _LoginPage extends State<LoginPage> {
                     buttonText: "Log In",
                     onButtonClick: () {
                       // Perform Login
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                      login();
                     }),
                 InkWell(
                   onTap: () {

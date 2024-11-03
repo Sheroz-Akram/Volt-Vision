@@ -1,5 +1,7 @@
 import 'package:app/components/button.dart';
 import 'package:app/pages/account/login.dart';
+import 'package:app/pages/dashboard/home.dart';
+import 'package:app/utils/storage.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -11,6 +13,21 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePage extends State<WelcomePage> {
+  void checkLoginStatus() async {
+    Storage storage = Storage();
+    String? token = await storage.loadToken();
+    if (token != null) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
