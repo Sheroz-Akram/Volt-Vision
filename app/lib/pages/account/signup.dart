@@ -1,7 +1,6 @@
 import 'package:app/classes/user.dart';
 import 'package:app/components/button.dart';
 import 'package:app/components/input.dart';
-import 'package:app/pages/dashboard/home.dart';
 import 'package:app/utils/snackBarDisplay.dart';
 import 'package:flutter/material.dart';
 
@@ -43,12 +42,9 @@ class _SignUpPage extends State<SignUpPage> {
     if (response != null) {
       snackBarDisplay.showError(response);
     } else {
-      snackBarDisplay.showSuccess("Account Created Successfully");
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-        (Route<dynamic> route) => false,
-      );
+      snackBarDisplay
+          .showSuccess("Account Created Successfully. Now verify account");
+      Navigator.pop(context);
     }
   }
 

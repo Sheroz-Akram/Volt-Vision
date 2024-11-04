@@ -57,11 +57,33 @@ class User {
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       if (responseData['success'] == true) {
-        await storage.storeToken(responseData['token']);
         return null;
       }
       return responseData['message'];
     } else {
+      return "Invalid Request/Network Error";
+    }
+  }
+
+  /// Request to Reset Password
+  Future<String?> resetPassword(String email) async {
+    // Validate the User Email and Password
+    String? emailError = validator.validateEmail(email);
+
+    if (emailError != null) {
+      return emailError;
+    }
+
+    // Perform Sign Up Request
+    Response response = await authentication.resetPassword(email);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      if (responseData['success'] == true) {
+        return null;
+      }
+      return responseData['message'];
+    } else {
+      print(response.body);
       return "Invalid Request/Network Error";
     }
   }

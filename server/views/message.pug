@@ -1,0 +1,43 @@
+// views/message.pug
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Volt Vision | Information
+    style.
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+      body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          font-family: Arial, sans-serif;
+          background-color: #24262b;
+      }
+      .message {
+          border: 1px solid #{title === 'Success' ? '#a5d6a7' : '#ef9a9a'};
+          color: #{title === 'Success' ? '#2e7d32' : '#c62828'};
+          padding: 20px;
+          border-radius: 8px;
+          text-align: center;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          max-width: 50%;
+      }
+      .message h1 {
+          font-size: 2em;
+          margin-bottom: 10px;
+          color: #{title === 'Success' ? '#388e3c' : '#d32f2f'};
+      }
+      .message p {
+          font-size: 1.1em;
+          color: #{title === 'Success' ? '#4caf50' : '#e57373'};
+      }
+  body
+    .message
+      h1= title
+      p= message

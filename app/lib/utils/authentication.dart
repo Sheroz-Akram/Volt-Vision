@@ -30,4 +30,17 @@ class Authentication {
 
     return response;
   }
+
+  // Signup method
+  Future<http.Response> resetPassword(String email) async {
+    final url = Uri.parse('$baseUrl/users/passwordResetRequest');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email}),
+    );
+
+    return response;
+  }
 }

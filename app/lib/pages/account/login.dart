@@ -1,6 +1,7 @@
 import 'package:app/classes/user.dart';
 import 'package:app/components/button.dart';
 import 'package:app/components/input.dart';
+import 'package:app/pages/account/passwordReset.dart';
 import 'package:app/pages/account/signup.dart';
 import 'package:app/pages/dashboard/home.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +100,10 @@ class _LoginPage extends State<LoginPage> {
                   child: InkWell(
                     onTap: () {
                       // Move to Password Reset Page
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PasswordResetPage()));
                     },
                     child: Text(
                       "Forgot Password?",

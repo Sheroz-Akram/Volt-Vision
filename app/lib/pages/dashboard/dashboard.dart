@@ -35,6 +35,11 @@ class _DashBoardPage extends State<DashBoardPage> {
             },
           ),
           IconRow(
+            icon: Icons.attach_money,
+            title: "Pay Now",
+            onClick: () {},
+          ),
+          IconRow(
               icon: Icons.history_rounded,
               title: "View History",
               onClick: () {}),

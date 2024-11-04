@@ -31,6 +31,17 @@ const loginValidation = z.object({
   password: passwordValidation,
 });
 
+const passwordResetEmailValidation = z.object({
+    email: emailValidation
+})
+
+const passwordResetValidation = z.object({
+  newPassword: passwordValidation,
+  confirmPassword: z.string().min(1, 'Please confirm your new password'),
+}).refine(data => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
+});
 
 // Zod middleware to validate request body
 const validate = (schema) => (req, res, next) => {
@@ -49,4 +60,6 @@ module.exports = {
   validate,
   loginValidation,
   signupValidation,
+  passwordResetEmailValidation,
+  passwordResetValidation
 };
