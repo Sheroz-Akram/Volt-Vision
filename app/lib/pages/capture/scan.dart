@@ -1,5 +1,6 @@
 import 'package:app/components/button.dart';
 import 'package:app/components/progressBar.dart';
+import 'package:app/components/tip.dart';
 import 'package:app/pages/capture/process.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -119,6 +120,14 @@ class _ScanPage extends State<ScanPage> {
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
+              ),
+              const Tip(
+                title: 'Capture the entire dial',
+                description:
+                    'Make sure there are no shadows,reflections or glares on the screen.',
+                tipImage: 'assets/images/tip01.png',
+                tipNo: 1,
+                totalTips: 3,
               ),
               const ProgressBar(
                 percentage: 0.62,

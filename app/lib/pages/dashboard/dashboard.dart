@@ -1,3 +1,4 @@
+import 'package:app/components/electricityUsage.dart';
 import 'package:app/components/iconRow.dart';
 import 'package:app/pages/capture/guide.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _DashBoardPage extends State<DashBoardPage> {
               textAlign: TextAlign.center,
             ),
           ),
+          ElectricityUsage(),
           IconRow(
             icon: Icons.camera_alt_outlined,
             title: "Scan Meter",
