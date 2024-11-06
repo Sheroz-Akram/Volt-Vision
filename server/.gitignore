@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# Files Upload
+/uploads/*
+!FILES HERE
+
 # testing
 /coverage
 

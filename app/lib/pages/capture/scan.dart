@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:app/classes/network.dart';
+import 'package:app/pages/capture/process.dart';
+import 'package:app/utils/snackBarDisplay.dart';
+import 'package:http/http.dart' as http;
 import 'package:app/components/button.dart';
 import 'package:app/components/progressBar.dart';
 import 'package:app/components/tip.dart';
-import 'package:app/pages/capture/process.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -18,6 +24,8 @@ class _ScanPage extends State<ScanPage> {
   CameraController? _cameraController;
   List<CameraDescription>? cameras;
   bool isCameraInitialized = false;
+  File? captureImage;
+  double progress = 0.0;
 
   @override
   void initState() {
@@ -68,6 +76,64 @@ class _ScanPage extends State<ScanPage> {
     }
   }
 
+  Future<void> capture() async {
+    if (!_cameraController!.value.isInitialized) return;
+
+    try {
+      final XFile imageFile = await _cameraController!.takePicture();
+      setState(() {
+        captureImage = File(imageFile.path);
+      });
+    } catch (e) {
+      print("Error capturing image: $e");
+    }
+  }
+
+  Future<void> uploadImage() async {
+    if (captureImage == null) return;
+    Network network = Network();
+    setState(() {
+      progress = 0.0;
+    });
+
+    final uri = Uri.parse("${network.baseUrl}/meters/upload");
+    final request = http.MultipartRequest('POST', uri);
+    request.files
+        .add(await http.MultipartFile.fromPath('image', captureImage!.path));
+
+    final http.StreamedResponse response = await request.send();
+    List<int> responseData = [];
+
+    response.stream.transform(StreamTransformer.fromHandlers(
+      handleData: (chunk, sink) {
+        responseData.addAll(chunk);
+        setState(() {
+          progress = (responseData.length / response.contentLength!);
+        });
+        sink.add(chunk);
+      },
+    )).listen((_) {}, onDone: () async {
+      final responseString = utf8.decode(responseData);
+      try {
+        Map<String, dynamic> jsonResponse = jsonDecode(responseString);
+        if (jsonResponse['success'] == true) {
+          SnackBarDisplay(context: context)
+              .showSuccess(jsonResponse['message']);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProcessPage(
+                        uploadImageLocation: jsonResponse['filePath'],
+                      )));
+        } else {
+          SnackBarDisplay(context: context).showError(jsonResponse['message']);
+        }
+      } catch (e) {
+        SnackBarDisplay(context: context).showError("Network/Invalid Request");
+      }
+    });
+  }
+
   @override
   void dispose() {
     _cameraController?.dispose();
@@ -113,7 +179,9 @@ class _ScanPage extends State<ScanPage> {
                     color: Color(0xFF1A2632),
                     borderRadius: BorderRadius.all(Radius.circular(20.0))),
                 child: isCameraInitialized
-                    ? CameraPreview(_cameraController!)
+                    ? captureImage == null
+                        ? CameraPreview(_cameraController!)
+                        : Image.file(captureImage!)
                     : Center(
                         child: Text(
                           "No Camera",
@@ -129,8 +197,8 @@ class _ScanPage extends State<ScanPage> {
                 tipNo: 1,
                 totalTips: 3,
               ),
-              const ProgressBar(
-                percentage: 0.62,
+              ProgressBar(
+                percentage: progress,
               ),
             ],
           ),
@@ -140,9 +208,9 @@ class _ScanPage extends State<ScanPage> {
         margin: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Button(
             buttonText: "Start Scanning",
-            onButtonClick: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const ProcessPage()));
+            onButtonClick: () async {
+              await capture();
+              await uploadImage();
             }),
       ),
     );

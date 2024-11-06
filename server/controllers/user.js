@@ -184,31 +184,4 @@ let resetPassword = async (req, res) => {
   }
 }
 
-
-
-
-let VerifyToken = async (req, res, next) => {
-  const token = req.headers.authorization
-    ? req.headers.authorization.split(" ")[1]
-    : null;
-  if (!token)
-    return res.status(200).send({
-      message: "Your Session has expired, Login to continue",
-      success: true,
-    });
-
-  try {
-    const decodedToken = jwt.verify(token, secret);
-    if (!decodedToken)
-      return res.status(200).send({
-        message: "Your Session has expired, Login to continue",
-        success: true,
-      });
-    next();
-  } catch (error) {
-    return res.status(200).send({ message: error.message, expired: true });
-  }
-};
-
-
-module.exports = { Signup, Login, verifyAccount, resetPasswordRequest, resetPasswordForm, resetPassword, VerifyToken};
+module.exports = { Signup, Login, verifyAccount, resetPasswordRequest, resetPasswordForm, resetPassword};

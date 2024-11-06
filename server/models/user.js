@@ -20,6 +20,18 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  meterReadings: [
+    {
+      reading: {
+        type: Number,
+        required: true,
+      },
+      timestamp: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 const Users = new mongoose.model("users", userSchema);

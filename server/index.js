@@ -5,6 +5,7 @@ const dbConnection = require('./utils/db');
 require("dotenv").config();
 
 const userRoutes= require("./routes/user")
+const meterRoutes = require("./routes/meter")
 
 const app = express();
 
@@ -30,3 +31,4 @@ app.get("/", (req, res) => {
 
 //Routes
 app.use("/users", userRoutes);
+app.use("/meters", meterRoutes);

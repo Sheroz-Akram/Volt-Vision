@@ -1,9 +1,8 @@
 import 'dart:convert';
+import 'package:app/classes/network.dart';
 import 'package:http/http.dart' as http;
 
-class Authentication {
-  final String baseUrl = "http://192.168.137.1:8080";
-
+class Authentication extends Network {
   // Login method
   Future<http.Response> login(String email, String password) async {
     final url = Uri.parse('$baseUrl/users/login');
