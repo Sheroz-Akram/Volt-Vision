@@ -3,9 +3,11 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
 class ElectricityData {
-  ElectricityData(this.month, this.units);
+  ElectricityData(this.month, this.units, this.change, this.trend);
   final DateTime month;
-  final double units;
+  final int units;
+  final double change;
+  final String trend;
 }
 
 class LineChart extends StatelessWidget {

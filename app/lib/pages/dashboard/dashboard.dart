@@ -1,4 +1,5 @@
 import 'package:app/components/electricityUsage.dart';
+import 'package:app/components/energyTips.dart';
 import 'package:app/components/iconRow.dart';
 import 'package:app/pages/capture/guide.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _DashBoardPage extends State<DashBoardPage> {
               textAlign: TextAlign.center,
             ),
           ),
-          ElectricityUsage(),
+          const ElectricityUsage(),
           IconRow(
             icon: Icons.camera_alt_outlined,
             title: "Scan Meter",
@@ -49,6 +50,7 @@ class _DashBoardPage extends State<DashBoardPage> {
               icon: Icons.settings_outlined, title: "Settings", onClick: () {}),
           IconRow(
               icon: Icons.help_outline_outlined, title: "Help", onClick: () {}),
+          const EnergyTips()
         ],
       ),
     );
