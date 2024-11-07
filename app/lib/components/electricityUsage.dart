@@ -29,7 +29,9 @@ class _ElectricityUsage extends State<ElectricityUsage> {
       result.add(ElectricityData(DateTime(value['year'], value['month']),
           value['reading'], value['percentageChange'] * 1.00, value['status']));
     }
-    return result;
+    return result.length <= 5
+        ? result
+        : result.skip(result.length - 5).toList();
   }
 
   // Load Electricity Usage Information From Server
@@ -84,8 +86,8 @@ class _ElectricityUsage extends State<ElectricityUsage> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   chartData.lastOrNull == null
-                      ? "0 KWH"
-                      : '${chartData.lastOrNull!.units} KWH',
+                      ? "0 kWh"
+                      : '${chartData.lastOrNull!.units} kWh',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
@@ -101,11 +103,17 @@ class _ElectricityUsage extends State<ElectricityUsage> {
                     width: 10,
                   ),
                   Text(
-                    "+20%",
+                    chartData.lastOrNull == null
+                        ? "-0%"
+                        : chartData.lastOrNull!.trend == "positive"
+                            ? "+${chartData.lastOrNull!.change.toInt()}"
+                            : "-${chartData.lastOrNull!.change.toInt()}",
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: chartData.lastOrNull == null
                             ? const Color.fromARGB(255, 104, 104, 104)
-                            : const Color(0xFF156F3E),
+                            : chartData.lastOrNull!.trend == "positive"
+                                ? const Color(0xFF156F3E)
+                                : const Color.fromARGB(255, 196, 0, 16),
                         fontWeight: FontWeight.bold),
                   ),
                 ],

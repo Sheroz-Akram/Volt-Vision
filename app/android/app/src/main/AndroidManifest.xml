@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+     <queries>
+        <package android:name="pk.com.telenor.phoenix" />
+    </queries>
     <application
         android:label="Volt Vision"
         android:name="${applicationName}"
@@ -23,6 +27,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.HOME"/> 
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

@@ -12,21 +12,41 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  // Define the pages for each tab
-  static const _pages = [
-    {"title": "Dashboard", "page": DashBoardPage()},
-    {"title": "Usage", "page": Text("Usage", style: TextStyle(fontSize: 24))},
-    {
-      "title": "Billing Statements",
-      "page": Text("Statement", style: TextStyle(fontSize: 24))
-    },
-    {"title": "Settings", "page": SettingsPage()}
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  // Define the pages for each tab
+  late List _pages;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pages = [
+      {
+        "title": "Dashboard",
+        "page": DashBoardPage(
+          onClick: (int index) {
+            print("Hello");
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+        )
+      },
+      {
+        "title": "Usage",
+        "page": const Text("Usage", style: TextStyle(fontSize: 24))
+      },
+      {
+        "title": "Billing Statements",
+        "page": const Text("Statement", style: TextStyle(fontSize: 24))
+      },
+      {"title": "Settings", "page": const SettingsPage()}
+    ];
   }
 
   @override

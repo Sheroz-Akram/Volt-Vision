@@ -119,7 +119,7 @@ class _ScanPage extends State<ScanPage> {
         if (jsonResponse['success'] == true) {
           SnackBarDisplay(context: context)
               .showSuccess(jsonResponse['message']);
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => ProcessPage(

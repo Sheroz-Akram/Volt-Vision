@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app/classes/network.dart';
 import 'package:app/components/button.dart';
+import 'package:app/components/readingDetected.dart';
 import 'package:app/utils/snackBarDisplay.dart';
 import 'package:app/utils/storage.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,8 @@ class _ProcessPage extends State<ProcessPage> {
       Map<String, dynamic> jsonResponse = jsonDecode(response.body);
       if (jsonResponse['success'] == true) {
         SnackBarDisplay(context: context).showSuccess(jsonResponse['message']);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ReadingDetected()));
       } else {
         SnackBarDisplay(context: context).showError(jsonResponse['message']);
       }

@@ -91,7 +91,7 @@ let detailMeterReading = async (req, res) => {
       const percentageChange = (difference / previous.reading) * 100;
 
       current.percentageChange = Math.abs(percentageChange.toFixed(2)); // Absolute value for display
-      current.status = difference >= 0 ? "positive" : "negative";
+      current.status = difference >= 0 ? "negative" : "positive";
     }
 
     // Set the first month's percentage change and status to null, as there is no previous month to compare
