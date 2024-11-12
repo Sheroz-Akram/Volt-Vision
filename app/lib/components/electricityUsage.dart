@@ -106,8 +106,8 @@ class _ElectricityUsage extends State<ElectricityUsage> {
                     chartData.lastOrNull == null
                         ? "-0%"
                         : chartData.lastOrNull!.trend == "positive"
-                            ? "+${chartData.lastOrNull!.change.toInt()}"
-                            : "-${chartData.lastOrNull!.change.toInt()}",
+                            ? "+${chartData.lastOrNull!.change.toInt()}%"
+                            : "-${chartData.lastOrNull!.change.toInt()}%",
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: chartData.lastOrNull == null
                             ? const Color.fromARGB(255, 104, 104, 104)
