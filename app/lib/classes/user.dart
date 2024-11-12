@@ -83,7 +83,6 @@ class User {
       }
       return responseData['message'];
     } else {
-      print(response.body);
       return "Invalid Request/Network Error";
     }
   }

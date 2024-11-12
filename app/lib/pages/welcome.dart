@@ -16,6 +16,8 @@ class _WelcomePage extends State<WelcomePage> {
   void checkLoginStatus() async {
     Storage storage = Storage();
     String? token = await storage.loadToken();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const HomePage()));
     if (token != null) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomePage()));
