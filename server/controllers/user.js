@@ -146,11 +146,11 @@ let resetPasswordRequest = async (req, res) => {
 // Diaplay Reset Password Form
 let resetPasswordForm = async (req, res) => {
   try{
-    const token = req.params.token ;
+    const token = req.token ;
     if (!token){
       return res.render('message', { title: "Error", message: "Token not Found" });
     }
-    return res.render('password', { token: token});
+    return res.render('password', { token: req.token});
   }
   catch (error) {
     res.render('message', { title: "Error", message: "Invalid Request" });

@@ -7,7 +7,9 @@
 
 # Files Upload
 /uploads/*
+/statements/*
 !FILES HERE
+!STATEMENTS HERE
 
 # testing
 /coverage

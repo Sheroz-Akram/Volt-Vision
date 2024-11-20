@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const secret = process.env.TOKEN_SECRET;
 
-let VerifyToken = async (req, res, next) => {
+
+let VerifyTokenPOST = async (req, res, next) => {
   const { token } = req.body;
   if (!token)
     return res.status(403).send({
@@ -17,6 +18,7 @@ let VerifyToken = async (req, res, next) => {
         expired: true,
       });
     req.user = decodedToken;
+    req.token = token;
     next();
   } catch (error) {
     return res
@@ -25,4 +27,23 @@ let VerifyToken = async (req, res, next) => {
   }
 };
 
-module.exports = { VerifyToken };
+let VerifyTokenGET = async (req, res, next) => {
+  const { token } = req.params;
+  try {
+    if (!token) {
+      return res.render('message', { title: "Error", message: "Token not Found" });
+    }
+    const decodedToken = jwt.verify(token, secret);
+    if (!decodedToken) {
+      return res.render('message', { title: "Error", message: "Token has Expired" });
+    }
+    console.log(decodedToken);
+    req.user = decodedToken;
+    req.token = token;
+    next();
+  } catch (error) {
+    res.render('message', { title: "Error", message: "Invalid Request/Expired Token" });
+  }
+
+}
+module.exports = { VerifyTokenPOST, VerifyTokenGET };

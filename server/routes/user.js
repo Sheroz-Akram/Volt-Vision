@@ -20,6 +20,7 @@ const {
   passwordResetEmailValidation,
   passwordResetValidation
 } = require("../utils/validation");
+const { VerifyTokenGET } = require("../utils/tokenVerify");
 
 router.post("/signup", validate(signupValidation), Signup);
 
@@ -29,7 +30,7 @@ router.get("/verify/:token" , verifyAccount);
 
 router.post("/passwordResetRequest", validate(passwordResetEmailValidation), resetPasswordRequest);
 
-router.get("/password-reset/:token", resetPasswordForm);
+router.get("/password-reset/:token", VerifyTokenGET, resetPasswordForm);
 
 router.post("/reset-password", validate(passwordResetValidation), resetPassword);
 
