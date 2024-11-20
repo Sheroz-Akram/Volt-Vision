@@ -53,7 +53,7 @@ let processImage = async (req, res) => {
     // Calculate units consumed
     // const unitsConsumed = readingValue - previousReading;
     const unitsConsumed = readingValue;
-    
+
     // Generate statement
     const now = new Date();
     const generateBillNumber = (date) => {
@@ -160,8 +160,6 @@ const downloadStatement = async (req, res) => {
   try {
 
     const { billNumber } = req.params;
-
-    console.log("Download Statement Request", req.user)
 
     // Find user and their readings
     const user = await Users.findById(req.user.id);

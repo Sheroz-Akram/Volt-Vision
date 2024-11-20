@@ -89,16 +89,7 @@ let Login = async (req, res) => {
 // Verify the Account of User
 let verifyAccount = async (req, res) => {
   try {
-    const token = req.params.token ;
-    if (!token){
-      return res.render('message', { title: "Error", message: "Token not Found" });
-    }
-    const decodedToken = jwt.verify(token, secret);
-    if (!decodedToken)
-    {
-      return res.render('message', { title: "Error", message: "Token is Expired" });
-    }
-    const user = await Users.findOne({ email: decodedToken.email });
+    const user = await Users.findOne({ email: req.user.email });
     if(user.isVerified === true){
       return res.render('message', { title: "Error", message: "Account is already verified." });
     }
@@ -106,7 +97,7 @@ let verifyAccount = async (req, res) => {
     await user.save();
     res.render('message', { title: "Success", message: "Your Account Verified Successfully!" });
   } catch (error) {
-    res.render('message', { title: "Error", message: "Invalid Request/Expired Token" });
+    res.render('message', { title: "Error", message: "Invalid Request" });
   }
 }
 

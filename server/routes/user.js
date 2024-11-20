@@ -26,7 +26,7 @@ router.post("/signup", validate(signupValidation), Signup);
 
 router.post("/login", validate(loginValidation), Login);
 
-router.get("/verify/:token" , verifyAccount);
+router.get("/verify/:token", VerifyTokenGET, verifyAccount);
 
 router.post("/passwordResetRequest", validate(passwordResetEmailValidation), resetPasswordRequest);
 

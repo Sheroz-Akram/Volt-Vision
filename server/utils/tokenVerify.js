@@ -37,7 +37,6 @@ let VerifyTokenGET = async (req, res, next) => {
     if (!decodedToken) {
       return res.render('message', { title: "Error", message: "Token has Expired" });
     }
-    console.log(decodedToken);
     req.user = decodedToken;
     req.token = token;
     next();
