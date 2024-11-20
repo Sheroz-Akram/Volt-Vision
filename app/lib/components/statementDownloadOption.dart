@@ -134,7 +134,7 @@ class StatementDownloadOption extends StatelessWidget {
               downloadFile(
                   url: "$baseUrl/meters/statement/$token/$billNumber",
                   fileName:
-                      "Statement-${date.year}-${date.month}-${date.day}.pdf",
+                      "Statement-${date.year}-${date.month}-${date.day}-${DateTime.now().day}${DateTime.now().hour}${DateTime.now().second}.pdf",
                   onDownloadCompleted: (String path) {
                     showDownloadNotification(path);
                     print(path);
