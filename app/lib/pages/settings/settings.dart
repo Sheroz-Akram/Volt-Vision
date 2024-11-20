@@ -1,5 +1,9 @@
 import 'package:app/classes/user.dart';
 import 'package:app/components/actionRow.dart';
+import 'package:app/pages/reading/about.dart';
+import 'package:app/pages/reading/help.dart';
+import 'package:app/pages/reading/privacy.dart';
+import 'package:app/pages/reading/terms.dart';
 import 'package:app/pages/welcome.dart';
 import 'package:flutter/material.dart';
 
@@ -53,15 +57,35 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           ActionRow(
             title: "Privacy Policy",
-            onClick: () {},
+            onClick: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicy()));
+            },
           ),
           ActionRow(
             title: "Terms of Service",
-            onClick: () {},
+            onClick: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TermsService()));
+            },
+          ),
+          ActionRow(
+            title: "About Us",
+            onClick: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const About()));
+            },
           ),
           ActionRow(
             title: "Help Center",
-            onClick: () {},
+            onClick: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Help()));
+            },
           )
         ],
       ),
