@@ -51,8 +51,9 @@ let processImage = async (req, res) => {
     }
 
     // Calculate units consumed
-    const unitsConsumed = readingValue - previousReading;
-
+    // const unitsConsumed = readingValue - previousReading;
+    const unitsConsumed = readingValue;
+    
     // Generate statement
     const now = new Date();
     const generateBillNumber = (date) => {

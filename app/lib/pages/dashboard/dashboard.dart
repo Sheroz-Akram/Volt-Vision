@@ -2,6 +2,7 @@ import 'package:app/components/electricityUsage.dart';
 import 'package:app/components/energyTips.dart';
 import 'package:app/components/iconRow.dart';
 import 'package:app/pages/capture/guide.dart';
+import 'package:app/pages/reading/help.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +66,12 @@ class _DashBoardPage extends State<DashBoardPage> {
                 widget.onClick(3);
               }),
           IconRow(
-              icon: Icons.help_outline_outlined, title: "Help", onClick: () {}),
+              icon: Icons.help_outline_outlined,
+              title: "Help",
+              onClick: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Help()));
+              }),
           const EnergyTips()
         ],
       ),
