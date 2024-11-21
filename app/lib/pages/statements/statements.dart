@@ -97,6 +97,13 @@ class _StatementPage extends State<StatementPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (statements.isEmpty) {
+      return Center(
+        child: Text('No statements found',
+            style: Theme.of(context).textTheme.bodyMedium),
+      );
+    }
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(

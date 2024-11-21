@@ -6,6 +6,36 @@ const secret = process.env.TOKEN_SECRET;
 const host = process.env.HOST;
 const port = process.env.PORT;
 
+let ProfileDetails = async (req, res) => {
+  const user = await Users.findById(req.user.id);
+  if (!user) {
+    return res.status(200).send({ message: "User not found", success: false });
+  }
+  res.status(200).send({
+    message: "Profile Details Fetched Successfully",
+    user: {
+      name: user.name,
+      email: user.email,
+    }, success: true
+  });
+}
+
+let UpdateProfile = async (req, res) => {
+  const user = await Users.findById(req.user.id);
+  if (!user) {
+    return res.status(200).send({ message: "User not found", success: false });
+  }
+  const { name } = req.body;
+  user.name = name;
+  await user.save();
+  res.status(200).send({
+    message: "Profile Updated Successfully", user: {
+      name: user.name,
+      email: user.email,
+    }, success: true
+  });
+}
+
 let Signup = async (req, res) => {
   let { name, email, password } = req.body;
 
@@ -36,12 +66,12 @@ let Signup = async (req, res) => {
     await sendEmail(
       email,
       "Volt Vision - Account Verification",
-      `Please verify your account by clicking on the following link: <a href="http://${host}:${port}/users/verify/${token}">Click Here</a>`
+      `Please verify your account by clicking on the following link: <a href="${host}/users/verify/${token}">Click Here</a>`
     );
 
     res.status(200).send({ message: "Account Created Successfully. Please verify account now through mail.", success: true });
   } catch (error) {
-    res.status(500).send({ message: error.toString(), success: false});
+    res.status(500).send({ message: error.toString(), success: false });
   }
 };
 
@@ -66,22 +96,22 @@ let Login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    if (user.isVerified === false){
+    if (user.isVerified === false) {
       // Send Email to User for Verfication
       await sendEmail(
         email,
         "Volt Vision - Account Verification",
-        `Please verify your account by clicking on the following link: <a href="http://${host}:${port}/users/verify/${token}">Click Here</a>`
+        `Please verify your account by clicking on the following link: <a href="${host}/users/verify/${token}">Click Here</a>`
       );
 
       return res
         .status(200)
         .send({ message: "Please verify your account. Verification Link Send to Email", success: false });
     }
-      
+
     res.status(200).send({ message: "Login Successfully", success: true, token: token });
   } catch (error) {
-    res.status(200).send({ message: error.toString(), success: false});
+    res.status(200).send({ message: error.toString(), success: false });
   }
 };
 
@@ -90,7 +120,7 @@ let Login = async (req, res) => {
 let verifyAccount = async (req, res) => {
   try {
     const user = await Users.findOne({ email: req.user.email });
-    if(user.isVerified === true){
+    if (user.isVerified === true) {
       return res.render('message', { title: "Error", message: "Account is already verified." });
     }
     user.isVerified = true;
@@ -104,17 +134,17 @@ let verifyAccount = async (req, res) => {
 
 // Reset the Passowrd of User
 let resetPasswordRequest = async (req, res) => {
-  try{
+  try {
     const { email } = req.body;
 
     // Find the USer
     const user = await Users.findOne({ email });
-    if (!user){
+    if (!user) {
       return res
         .status(200)
         .send({ message: "No Account exists with this email", success: false });
     }
-    
+
     // Generate Token for Authentication
     const token = jwt.sign({ id: user._id, email: user.email }, secret, {
       algorithm: "HS256",
@@ -125,23 +155,23 @@ let resetPasswordRequest = async (req, res) => {
     await sendEmail(
       email,
       "Volt Vision - Password Reset Request",
-      `Please reset your account password by clicking on the following link: <a href="http://${host}:${port}/users/password-reset/${token}">Click Here</a>`
+      `Please reset your account password by clicking on the following link: <a href="${host}/users/password-reset/${token}">Click Here</a>`
     );
     res.status(200).send({ message: "Password Reset Link Send. Check Email", success: true });
   }
   catch (error) {
-    res.status(200).send({ message: error.toString(), success: false});
+    res.status(200).send({ message: error.toString(), success: false });
   }
 }
 
 // Diaplay Reset Password Form
 let resetPasswordForm = async (req, res) => {
-  try{
-    const token = req.token ;
-    if (!token){
+  try {
+    const token = req.token;
+    if (!token) {
       return res.render('message', { title: "Error", message: "Token not Found" });
     }
-    return res.render('password', { token: req.token});
+    return res.render('password', { token: req.token });
   }
   catch (error) {
     res.render('message', { title: "Error", message: "Invalid Request" });
@@ -150,17 +180,16 @@ let resetPasswordForm = async (req, res) => {
 
 // Reset the Password of the User
 let resetPassword = async (req, res) => {
-  try{
+  try {
     const { token, newPassword, confirmPassword } = req.body;
-    if(newPassword != confirmPassword){
+    if (newPassword != confirmPassword) {
       return res.render('message', { title: "Error", message: "Password does not match" });
     }
-    if (!token){
+    if (!token) {
       return res.render('message', { title: "Error", message: "Token not Found" });
     }
     const decodedToken = jwt.verify(token, secret);
-    if (!decodedToken)
-    {
+    if (!decodedToken) {
       return res.render('message', { title: "Error", message: "Token is Expired" });
     }
     const hashedPassowrd = await bcrypt.hash(newPassword, 9);
@@ -175,4 +204,4 @@ let resetPassword = async (req, res) => {
   }
 }
 
-module.exports = { Signup, Login, verifyAccount, resetPasswordRequest, resetPasswordForm, resetPassword};
+module.exports = { Signup, Login, ProfileDetails, UpdateProfile, verifyAccount, resetPasswordRequest, resetPasswordForm, resetPassword };

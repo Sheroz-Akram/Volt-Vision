@@ -29,10 +29,12 @@ let processImage = async (req, res) => {
     let filePath = req.body.filePath;
 
     // Perform Meter OCR
-    const response = { value: (await roboflowInference(path.join(__dirname, `../uploads/${filePath}`), 20, 30)).join('') };
+    const response = { value: (await roboflowInference(path.join(__dirname, `../uploads/${filePath}`), 20, 50)).join('') };
+    console.log(`Meter Reading Detected: ${response.value}`);
+    if(isNaN(response.value)) {
+      throw new Error('Meter Reading Detection Failed');
+    }
     let readingValue = parseInt(response.value);
-    
-    console.log(`OCR METER READING: ${readingValue}`);
 
     // Get the user with their readings
     let user = await Users.findById(req.user.id);
@@ -207,7 +209,74 @@ const downloadStatement = async (req, res) => {
   }
 };
 
+const billPrediction = async (req, res) => {
+  try {
+    
+    // User Object
+    const user = await Users.findById(req.user.id);
+    if (!user) {
+      return res.status(200).send({ message: "User not found", success: false });
+    }
+    
+    // Last Meter Reading of User
+    const lastReading = await user.meterReadings[user.meterReadings.length - 1];
+    if (!lastReading) {
+      return res.status(200).send({ 
+        message: "No meter readings found", 
+        success: false 
+      });
+    }
+
+    // Get date from last reading's timestamp
+    const readingDate = new Date(lastReading.timestamp);
+    const readingMonth = readingDate.getMonth();
+    const readingYear = readingDate.getFullYear();
+
+    // Calculate average units per day based on last reading
+    const averageUnitsPerDay = lastReading.unitsConsumed / readingDate.getDate();
+
+    // Get total days in the reading's month
+    const daysInMonth = new Date(readingYear, readingMonth + 1, 0).getDate();
+    
+    // Calculate predicted units for full month
+    const predictedUnits = Math.round(averageUnitsPerDay * daysInMonth);
+
+    // Calculate bill amount based on predicted units
+    const basicRate = 0.15; // Basic rate per unit
+    const serviceCharge = 10; // Fixed service charge
+    const taxRate = 0.05; // 5% tax rate
+
+    const basicCharge = predictedUnits * basicRate;
+    const tax = basicCharge * taxRate;
+    const totalBill = basicCharge + serviceCharge + tax;
+
+    res.status(200).send({
+      message: "Bill prediction calculated successfully", 
+      data: {
+        monthOfReading: readingDate.toLocaleString('default', { month: 'long' }),
+        averageUnitsPerDay: Number(averageUnitsPerDay.toFixed(2)),
+        averageUnitsPerMonth: predictedUnits,
+        unitsConsumedSoFar: lastReading.unitsConsumed,
+        daysPassed: readingDate.getDate(),
+        daysInMonth,
+        predictedUnits,
+        billDetails: {
+          basicCharge: Number(basicCharge.toFixed(2)),
+          serviceCharge: serviceCharge,
+          tax: Number(tax.toFixed(2)),
+          totalBill: Number(totalBill.toFixed(2))
+        }
+      },
+      success: true
+    });
+
+
+  } catch (error) {
+    res.status(200).send({ message: error.toString(), success: false });
+  }
+}
 
 
 
-module.exports = { uploadImage, processImage, detailMeterReading, downloadStatement };
+
+module.exports = { uploadImage, processImage, detailMeterReading, downloadStatement, billPrediction };

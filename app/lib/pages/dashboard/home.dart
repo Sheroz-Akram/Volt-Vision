@@ -1,4 +1,5 @@
 import 'package:app/pages/dashboard/dashboard.dart';
+import 'package:app/pages/dashboard/usage.dart';
 import 'package:app/pages/settings/settings.dart';
 import 'package:app/pages/statements/statements.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +39,7 @@ class _HomePageState extends State<HomePage> {
           },
         )
       },
-      {
-        "title": "Usage",
-        "page": const Text("Usage", style: TextStyle(fontSize: 24))
-      },
+      {"title": "Usage", "page": const UsagePage()},
       {"title": "Billing Statements", "page": const StatementPage()},
       {"title": "Settings", "page": const SettingsPage()}
     ];

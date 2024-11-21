@@ -1,5 +1,6 @@
 import 'package:app/classes/user.dart';
 import 'package:app/components/actionRow.dart';
+import 'package:app/pages/account/profile.dart';
 import 'package:app/pages/reading/about.dart';
 import 'package:app/pages/reading/help.dart';
 import 'package:app/pages/reading/privacy.dart';
@@ -31,7 +32,10 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           ActionRow(
             title: "Profile",
-            onClick: () {},
+            onClick: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()));
+            },
           ),
           ActionRow(
             title: "Logout",

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { uploadImage, processImage, detailMeterReading, downloadStatement } = require("../controllers/meter");
+const { uploadImage, processImage, detailMeterReading, downloadStatement, billPrediction  } = require("../controllers/meter");
 const {VerifyTokenPOST, VerifyTokenGET} = require ("../utils/tokenVerify")
 
 const storage = multer.diskStorage({
@@ -23,5 +23,6 @@ router.post("/upload", upload.single('image'), uploadImage);
 router.post("/process", VerifyTokenPOST , processImage);
 router.post("/readings", VerifyTokenPOST , detailMeterReading);
 router.get("/statement/:token/:billNumber", VerifyTokenGET , downloadStatement);
+router.get("/prediction/:token", VerifyTokenGET , billPrediction);
 
 module.exports = router;

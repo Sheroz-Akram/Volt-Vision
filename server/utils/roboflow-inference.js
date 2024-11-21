@@ -29,10 +29,11 @@ async function roboflowInference(imagePath, confidence = 40, overlap = 30) {
             .map(p => {
                 const num = Number(p.class);
                 if (isNaN(num)) {
-                    throw new Error(`Invalid class value: ${p.class} is not a number`);
+                    return null;
                 }
                 return num;
-            });
+            })
+            .filter(num => num !== null);
 
         return sortedClasses;
     } catch (error) {

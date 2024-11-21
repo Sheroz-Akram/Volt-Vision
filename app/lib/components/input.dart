@@ -6,11 +6,13 @@ class TextInput extends StatelessWidget {
       required this.hintText,
       required this.controller,
       this.isPassword = false,
+      this.inputEnable = true,
       this.displayPassword = true,
       this.toggleDisplayPassword});
   final String hintText;
   final bool isPassword;
   final bool displayPassword;
+  final bool inputEnable;
   final Function? toggleDisplayPassword;
   final TextEditingController controller;
   @override
@@ -19,6 +21,7 @@ class TextInput extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 10.0),
         width: MediaQuery.of(context).size.width,
         child: TextField(
+          enabled: inputEnable,
           controller: controller,
           obscureText: displayPassword ? false : true,
           decoration: InputDecoration(
@@ -35,7 +38,12 @@ class TextInput extends StatelessWidget {
                       child: const Icon(Icons.remove_red_eye),
                     )
                   : null),
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: inputEnable
+              ? Theme.of(context).textTheme.bodyMedium
+              : Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: const Color.fromARGB(255, 151, 151, 151)),
           cursorColor: Colors.white,
         ));
   }

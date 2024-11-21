@@ -37,6 +37,7 @@ class _ProcessPage extends State<ProcessPage> {
             MaterialPageRoute(builder: (context) => const ReadingDetected()));
       } else {
         SnackBarDisplay(context: context).showError(jsonResponse['message']);
+        Navigator.pop(context);
       }
     } catch (e) {
       SnackBarDisplay(context: context).showError("Network/Invalid Request");

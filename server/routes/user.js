@@ -3,6 +3,8 @@ const router = express.Router();
 const {
   Login,
   Signup,
+  ProfileDetails,
+  UpdateProfile,
   verifyAccount,
   ChangePassword,
   VerifyToken,
@@ -18,9 +20,9 @@ const {
   loginValidation,
   signupValidation,
   passwordResetEmailValidation,
-  passwordResetValidation
+  passwordResetValidation,
 } = require("../utils/validation");
-const { VerifyTokenGET } = require("../utils/tokenVerify");
+const { VerifyTokenGET, VerifyTokenPOST } = require("../utils/tokenVerify");
 
 router.post("/signup", validate(signupValidation), Signup);
 
@@ -33,5 +35,9 @@ router.post("/passwordResetRequest", validate(passwordResetEmailValidation), res
 router.get("/password-reset/:token", VerifyTokenGET, resetPasswordForm);
 
 router.post("/reset-password", validate(passwordResetValidation), resetPassword);
+
+router.get("/profile/:token", VerifyTokenGET, ProfileDetails);
+
+router.post("/updateProfile", VerifyTokenPOST, UpdateProfile);
 
 module.exports = router;

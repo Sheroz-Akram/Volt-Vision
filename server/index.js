@@ -16,8 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Connections
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || "0.0.0.0";
+const PORT = "1122"
+const HOST = "127.0.0.1";
 
 dbConnection().catch((error) => console.log(error));
 
