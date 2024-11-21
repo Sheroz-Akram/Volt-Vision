@@ -1,21 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const dbConnection = require('./utils/db')
-const generateStatement = require("./utils/generate-statement")
-
-// generateStatement(100, {
-//   accountNumber: "1234567890",
-//   name: "Sheroz Akram",
-//   address: "Harbanspura, Lahore, Pakistan",
-// }, {
-//   billNumber: "1234567890",
-//   billDate: "2024-01-01",
-//   dueDate: "2024-01-15",
-// }, {
-//   basic: 0.15,
-//   service: 10,
-//   tax: 0.05,
-// });
 
 require("dotenv").config();
 

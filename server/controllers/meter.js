@@ -3,6 +3,7 @@ const Users = require("../models/user");
 const generateStatement = require("../utils/generate-statement");
 const secret = process.env.TOKEN_SECRET;
 const path = require('path');
+const { roboflowInference } = require('../utils/roboflow-inference')
 
 let uploadImage = async (req, res) => {
   try {
@@ -27,7 +28,11 @@ let processImage = async (req, res) => {
     // File Path
     let filePath = req.body.filePath;
 
-    let readingValue = Math.floor(Math.random() * (500 - 100) + 100);
+    // Perform Meter OCR
+    const response = { value: (await roboflowInference(path.join(__dirname, `../uploads/${filePath}`), 20, 30)).join('') };
+    let readingValue = parseInt(response.value);
+    
+    console.log(`OCR METER READING: ${readingValue}`);
 
     // Get the user with their readings
     let user = await Users.findById(req.user.id);
@@ -51,8 +56,10 @@ let processImage = async (req, res) => {
     }
 
     // Calculate units consumed
-    // const unitsConsumed = readingValue - previousReading;
-    const unitsConsumed = readingValue;
+    if(previousReading > readingValue) {
+      throw new Error('Meter reading is failed');
+    }
+    const unitsConsumed = readingValue - previousReading;
 
     // Generate statement
     const now = new Date();
