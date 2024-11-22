@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
         "title": "Dashboard",
         "page": DashBoardPage(
           onClick: (int index) {
-            print("Hello");
             setState(() {
               _selectedIndex = index;
             });

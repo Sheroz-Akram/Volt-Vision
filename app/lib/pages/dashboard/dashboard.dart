@@ -24,14 +24,6 @@ class _DashBoardPage extends State<DashBoardPage> {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              "You're using 1.2x more electricity than last week",
-              style: Theme.of(context).textTheme.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-          ),
           electricityUsage,
           IconRow(
             icon: Icons.camera_alt_outlined,

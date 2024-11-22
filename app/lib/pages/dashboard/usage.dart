@@ -100,13 +100,13 @@ class _UsagePage extends State<UsagePage> {
           const SizedBox(
             height: 10,
           ),
-          displayRow("Basic Charge",
-              usageData["billDetails"]["basicCharge"].toString()),
-          displayRow("Service Charge",
-              usageData["billDetails"]["serviceCharge"].toString()),
-          displayRow("Tax", usageData["billDetails"]["tax"].toString()),
           displayRow(
-              "Total Bill", usageData["billDetails"]["totalBill"].toString()),
+              "Basic Charge", "\$ ${usageData["billDetails"]["basicCharge"]}"),
+          displayRow("Service Charge",
+              "\$ ${usageData["billDetails"]["serviceCharge"]}"),
+          displayRow("Tax", "\$ ${usageData["billDetails"]["tax"]}"),
+          displayRow(
+              "Total Bill", "\$ ${usageData["billDetails"]["totalBill"]}"),
         ],
       ),
     );
