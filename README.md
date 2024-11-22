@@ -22,6 +22,12 @@ This project is a **Flutter** based mobile application paired with a **Node.js**
 | **Authentication**         | JWT (JSON Web Tokens)                     | Ensures secure user authentication and session management.                 |
 | **APIs**                   | REST APIs                                 | Enables communication between frontend and backend.                        |
 
+## Screen Shots
+
+<img src="./screens/welcome.jpg" width=200 /> <img src="./screens/login.jpg" width=200 /> <img src="./screens/register.jpg" width=200 /> <img src="./screens/forgotPassword.jpg" width=200 />
+
+<img src="./screens/dashboard.jpg" width=200 /> <img src="./screens/usage.jpg" width=200 /> <img src="./screens/statements.jpg" width=200 /> <img src="./screens/settings.jpg" width=200 />
+
 ## System Setup
 
 ### Server Setup
