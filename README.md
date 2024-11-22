@@ -33,12 +33,17 @@ This project is a **Flutter** based mobile application paired with a **Node.js**
 ### Server Setup
 - Clone the repository:
   
-  ```git clone https://github.com/Sheroz-Akram/Volt-Vision.git```
+  ```
+  git clone https://github.com/Sheroz-Akram/Volt-Vision.git
+  ```
   
 - Install Node.js Dependencies:
   
-  `cd server`
-  `npm install`
+  ```
+  cd server
+
+  npm install
+  ```
   
 - Configure environmental variables:
   
@@ -62,6 +67,12 @@ This project is a **Flutter** based mobile application paired with a **Node.js**
   ROBOFLOW_API_KEY=""         # Roboflow API key for authentication
   ```
 
+- Install Node.js Dependencies:
+  
+  ```
+  npm start
+  ```
+  
 ### Client Application Setup
 
 - Configure the Base URL in Network class:
