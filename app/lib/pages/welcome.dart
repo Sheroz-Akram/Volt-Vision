@@ -3,6 +3,7 @@ import 'package:app/pages/account/login.dart';
 import 'package:app/pages/dashboard/home.dart';
 import 'package:app/utils/storage.dart';
 import 'package:flutter/material.dart';
+import 'package:workmanager/workmanager.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -16,6 +17,17 @@ class _WelcomePage extends State<WelcomePage> {
   void checkLoginStatus() async {
     Storage storage = Storage();
     String? token = await storage.loadToken();
+    bool isNotificationAllowed = await storage.loadAllowNotification() ?? true;
+    if (isNotificationAllowed) {
+      Workmanager().registerPeriodicTask(
+        "1", // Unique task ID
+        "showRandomTip", // Task name
+        frequency: const Duration(minutes: 15), // Frequency
+        existingWorkPolicy: ExistingWorkPolicy.replace,
+      );
+    } else {
+      Workmanager().cancelByUniqueName("1");
+    }
     if (token != null) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomePage()));

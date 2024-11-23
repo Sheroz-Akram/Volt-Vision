@@ -1,17 +1,65 @@
+import 'dart:math';
+
 import 'package:app/pages/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';
+import 'package:workmanager/workmanager.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 void backgroundNotificationHandler(NotificationResponse response) {
   if (response.payload != null) {
-    OpenFile.open(response.payload); // Open the file with the payload path
+    OpenFile.open(response.payload);
   }
+}
+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    // Initialize the notification plugin in the background task
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    // List of electricity tips
+    List<String> electricityTips = [
+      "Turn off lights when you leave a room.",
+      "Unplug appliances when not in use.",
+      "Use energy-efficient light bulbs.",
+      "Wash clothes with cold water.",
+      "Turn off your computer when not in use.",
+    ];
+
+    // Select a random tip
+    final random = Random();
+    String randomTip = electricityTips[random.nextInt(electricityTips.length)];
+
+    // Show a notification
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+      'electricity_tips_channel', // channel ID
+      'Electricity Tips', // channel name
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidDetails);
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // Notification ID
+      'Electricity Tip', // Title
+      randomTip, // Body
+      notificationDetails,
+    );
+
+    return Future.value(true);
+  });
 }
 
 void main() async {
@@ -36,6 +84,9 @@ void main() async {
     },
     onDidReceiveBackgroundNotificationResponse: backgroundNotificationHandler,
   );
+
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+
   runApp(const MyApp());
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(

@@ -48,6 +48,7 @@ dependencies:
   flutter_file_downloader: ^2.0.0
   flutter_local_notifications: ^18.0.1
   open_file: ^3.5.9
+  workmanager: ^0.5.2
 
 dev_dependencies:
   flutter_test:

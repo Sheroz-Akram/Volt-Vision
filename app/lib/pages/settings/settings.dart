@@ -5,6 +5,7 @@ import 'package:app/pages/reading/about.dart';
 import 'package:app/pages/reading/help.dart';
 import 'package:app/pages/reading/privacy.dart';
 import 'package:app/pages/reading/terms.dart';
+import 'package:app/pages/settings/notifications.dart';
 import 'package:app/pages/welcome.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,12 @@ class _SettingsPage extends State<SettingsPage> {
           ),
           ActionRow(
             title: "Push Notifications",
-            onClick: () {},
+            onClick: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NotificationSettings()));
+            },
           ),
           Text(
             "About",
