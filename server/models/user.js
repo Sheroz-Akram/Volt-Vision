@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     min: [6, "Too Short Password"],
     max: [20, "Too long Password"],
   },
+  initialReading: {
+    type: Number,
+    default: 0
+  },
   isVerified: {
     type: Boolean,
     default: false,

@@ -37,7 +37,11 @@ let UpdateProfile = async (req, res) => {
 }
 
 let Signup = async (req, res) => {
-  let { name, email, password } = req.body;
+  let { name, email, password, initialReading } = req.body;
+
+  if(isNaN(initialReading)) {
+    return res.status(200).send({ message: "Invalid Initial Reading. Reading must be a number.", success: false });
+  }
 
   try {
     const emailExist = await Users.findOne({ email });
@@ -53,6 +57,7 @@ let Signup = async (req, res) => {
       name,
       email,
       password: hashedPassowrd,
+      initialReading: parseInt(initialReading)
     });
     await user.save();
 

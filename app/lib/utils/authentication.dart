@@ -18,13 +18,18 @@ class Authentication extends Network {
 
   // Signup method
   Future<http.Response> signup(
-      String name, String email, String password) async {
+      String name, String email, String password, initialReading) async {
     final url = Uri.parse('$baseUrl/users/signup');
 
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'name': name, 'email': email, 'password': password}),
+      body: jsonEncode({
+        'name': name,
+        'email': email,
+        'password': password,
+        'initialReading': initialReading
+      }),
     );
 
     return response;

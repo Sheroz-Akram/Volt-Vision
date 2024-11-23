@@ -15,6 +15,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPage extends State<SignUpPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController initialReading = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -37,8 +38,14 @@ class _SignUpPage extends State<SignUpPage> {
       return;
     }
 
+    if (initialReading.text.isEmpty) {
+      snackBarDisplay.showError("Initial Meter Reading can't be empty");
+      return;
+    }
+
     // Perform Sign Up
-    var response = await user.signup(name, email, password);
+    var response =
+        await user.signup(name, email, password, initialReading.text);
     if (response != null) {
       snackBarDisplay.showError(response);
     } else {
@@ -65,6 +72,9 @@ class _SignUpPage extends State<SignUpPage> {
                 TextInput(hintText: "Your Name", controller: nameController),
                 TextInput(
                     hintText: "Email Address", controller: emailController),
+                TextInput(
+                    hintText: "Initial Meter Reading",
+                    controller: initialReading),
                 TextInput(
                   hintText: "Create Password",
                   controller: passwordController,

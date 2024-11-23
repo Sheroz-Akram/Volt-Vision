@@ -74,7 +74,7 @@ class _ElectricityUsage extends State<ElectricityUsage> {
         Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
           child: Text(
-            "You're using ${chartData.lastOrNull == null ? "-0%" : chartData.lastOrNull!.trend == "positive" ? "${chartData.lastOrNull!.change.toInt()}% more" : "${chartData.lastOrNull!.change.toInt()}% less"} more electricity than last week",
+            "You're using ${chartData.lastOrNull == null ? "-0%" : chartData.lastOrNull!.trend == "positive" ? "${chartData.lastOrNull!.change.toInt()}% less" : "${chartData.lastOrNull!.change.toInt()}% mores"} electricity than last week",
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),

@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ProcessPage extends StatefulWidget {
-  const ProcessPage({super.key, required this.uploadImageLocation});
-  final String uploadImageLocation;
+  const ProcessPage(
+      {super.key, required this.meterReading, required this.filePath});
+  final String meterReading;
+  final String filePath;
   @override
   State<StatefulWidget> createState() {
     return _ProcessPage();
@@ -26,8 +28,11 @@ class _ProcessPage extends State<ProcessPage> {
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body:
-          jsonEncode({'filePath': widget.uploadImageLocation, 'token': token}),
+      body: jsonEncode({
+        'meterReading': widget.meterReading,
+        'filePath': widget.filePath,
+        'token': token
+      }),
     );
     try {
       Map<String, dynamic> jsonResponse = jsonDecode(response.body);

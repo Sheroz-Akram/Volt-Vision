@@ -12,10 +12,25 @@ let uploadImage = async (req, res) => {
         .status(200)
         .send({ message: "File Not Found.", success: false });
     }
+
+    // Perform Meter OCR
+    const response = { value: (await roboflowInference(path.join(__dirname, `../uploads/${req.file.filename}`), 20, 50)).join('') };
+    console.log(`Meter Reading Detected: ${response.value}`);
+    if(isNaN(response.value)) {
+      throw new Error('Meter Reading Detection Failed');
+    }
+    
+
+    // Detected Reading Value
+    let readingValue = parseInt(response.value);
+    if(isNaN(readingValue)) {
+      throw new Error('Meter Reading Detection Failed');
+    }
     res.status(200).send({
       message: "Image Uploaded",
       success: true,
       filePath: req.file.filename,
+      readingValue: readingValue,
     });
   } catch (error) {
     res.status(200).send({ message: error.toString(), success: false });
@@ -27,14 +42,7 @@ let processImage = async (req, res) => {
 
     // File Path
     let filePath = req.body.filePath;
-
-    // Perform Meter OCR
-    const response = { value: (await roboflowInference(path.join(__dirname, `../uploads/${filePath}`), 20, 50)).join('') };
-    console.log(`Meter Reading Detected: ${response.value}`);
-    if(isNaN(response.value)) {
-      throw new Error('Meter Reading Detection Failed');
-    }
-    let readingValue = parseInt(response.value);
+    let readingValue = parseInt(req.body.meterReading);
 
     // Get the user with their readings
     let user = await Users.findById(req.user.id);
@@ -57,9 +65,14 @@ let processImage = async (req, res) => {
       }
     }
 
+    // If no previous reading, use initial reading
+    if(previousReading === 0) {
+      previousReading = user.initialReading;
+    }
+
     // Calculate units consumed
     if(previousReading > readingValue) {
-      throw new Error('Meter reading is failed');
+      throw new Error('Current reading should be greater than previous reading');
     }
     const unitsConsumed = readingValue - previousReading;
 

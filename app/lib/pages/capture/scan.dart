@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:app/classes/network.dart';
+import 'package:app/components/input.dart';
 import 'package:app/pages/capture/process.dart';
 import 'package:app/utils/snackBarDisplay.dart';
+import 'package:app/utils/storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/components/button.dart';
 import 'package:app/components/progressBar.dart';
@@ -26,6 +28,7 @@ class _ScanPage extends State<ScanPage> {
   bool isCameraInitialized = false;
   File? captureImage;
   double progress = 0.0;
+  Storage storage = Storage();
 
   @override
   void initState() {
@@ -89,6 +92,51 @@ class _ScanPage extends State<ScanPage> {
     }
   }
 
+  void showInputReadingDialog(
+      BuildContext context, int readingValue, String filePath) {
+    TextEditingController readingController = TextEditingController();
+    readingController.text = readingValue.toString();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: const Color(0xFF121A21),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Reading Detected',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                TextInput(
+                    hintText: "Detected Reading",
+                    controller: readingController),
+                const SizedBox(height: 20),
+                Button(
+                    buttonText: "Submit",
+                    onButtonClick: () => {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProcessPage(
+                                        meterReading: readingController.text,
+                                        filePath: filePath,
+                                      )))
+                        })
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> uploadImage() async {
     if (captureImage == null) return;
     Network network = Network();
@@ -117,19 +165,19 @@ class _ScanPage extends State<ScanPage> {
       try {
         Map<String, dynamic> jsonResponse = jsonDecode(responseString);
         if (jsonResponse['success'] == true) {
-          SnackBarDisplay(context: context)
-              .showSuccess(jsonResponse['message']);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProcessPage(
-                        uploadImageLocation: jsonResponse['filePath'],
-                      )));
+          showInputReadingDialog(
+              context, jsonResponse['readingValue'], jsonResponse['filePath']);
         } else {
           SnackBarDisplay(context: context).showError(jsonResponse['message']);
+          setState(() {
+            captureImage = null;
+          });
         }
       } catch (e) {
         SnackBarDisplay(context: context).showError("Network/Invalid Request");
+        setState(() {
+          captureImage = null;
+        });
       }
     });
   }
@@ -205,14 +253,15 @@ class _ScanPage extends State<ScanPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Button(
-            buttonText: "Start Scanning",
-            onButtonClick: () async {
-              await capture();
-              await uploadImage();
-            }),
-      ),
+          margin: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Button(
+              buttonText: "Start Scanning",
+              onButtonClick: () async {
+                if (captureImage == null) {
+                  await capture();
+                  await uploadImage();
+                }
+              })),
     );
   }
 }

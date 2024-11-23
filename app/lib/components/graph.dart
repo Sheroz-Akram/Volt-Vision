@@ -19,10 +19,11 @@ class LineChart extends StatelessWidget {
     return SfCartesianChart(
       borderWidth: 5,
       primaryXAxis: DateTimeAxis(
-          labelStyle:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          dateFormat: DateFormat.MMM(),
-          majorGridLines: const MajorGridLines(width: 0)),
+        labelStyle:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        dateFormat: DateFormat.MMM(),
+        majorGridLines: const MajorGridLines(width: 0),
+      ),
       primaryYAxis: const NumericAxis(
         labelStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         majorGridLines: MajorGridLines(width: 0),

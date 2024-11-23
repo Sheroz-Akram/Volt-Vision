@@ -37,7 +37,8 @@ class User {
   }
 
   /// Login a New User
-  Future<String?> signup(String name, String email, String password) async {
+  Future<String?> signup(
+      String name, String email, String password, String initalReading) async {
     // Validate the User Email and Password
     String? nameError = validator.validateName(name);
     String? emailError = validator.validateEmail(email);
@@ -53,7 +54,8 @@ class User {
     }
 
     // Perform Sign Up Request
-    Response response = await authentication.signup(name, email, password);
+    Response response =
+        await authentication.signup(name, email, password, initalReading);
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       if (responseData['success'] == true) {
