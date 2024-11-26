@@ -6,6 +6,8 @@ import 'package:app/components/input.dart';
 import 'package:app/pages/capture/process.dart';
 import 'package:app/utils/snackBarDisplay.dart';
 import 'package:app/utils/storage.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/components/button.dart';
 import 'package:app/components/progressBar.dart';
@@ -143,7 +145,7 @@ class _ScanPage extends State<ScanPage> {
     setState(() {
       progress = 0.0;
     });
-
+    EasyLoading.show(status: "Processing");
     final uri = Uri.parse("${network.baseUrl}/meters/upload");
     final request = http.MultipartRequest('POST', uri);
     request.files
@@ -167,14 +169,17 @@ class _ScanPage extends State<ScanPage> {
         if (jsonResponse['success'] == true) {
           showInputReadingDialog(
               context, jsonResponse['readingValue'], jsonResponse['filePath']);
+          EasyLoading.showSuccess(jsonResponse['message']);
         } else {
           SnackBarDisplay(context: context).showError(jsonResponse['message']);
+          EasyLoading.showError(jsonResponse['message']);
           setState(() {
             captureImage = null;
           });
         }
       } catch (e) {
         SnackBarDisplay(context: context).showError("Network/Invalid Request");
+        EasyLoading.showError("Network/Invalid Request");
         setState(() {
           captureImage = null;
         });
@@ -208,16 +213,41 @@ class _ScanPage extends State<ScanPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Scan your meter",
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  "Hold your phone close to the meter and move it around until you see a green frame.",
-                  style: Theme.of(context).textTheme.bodySmall,
-                  textAlign: TextAlign.justify,
+                margin: const EdgeInsets.only(bottom: 10.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Scan your meter",
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          Text(
+                            "Hold your phone close to the meter and click on Start Scanning button.",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        showInputReadingDialog(context, 0, "");
+                      },
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                              const Color(0xFF243647))),
+                      child: Text(
+                        "Manual",
+                        style:
+                            GoogleFonts.inter(color: const Color(0xFF9CA4AC)),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(

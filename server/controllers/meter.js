@@ -25,7 +25,7 @@ let uploadImage = async (req, res) => {
       throw new Error('Meter Reading Detection Failed');
     }
     res.status(200).send({
-      message: "Image Uploaded",
+      message: "Scanning Completed",
       success: true,
       filePath: req.compressedFilePath,
       readingValue: readingValue,

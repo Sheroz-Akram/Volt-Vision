@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:app/pages/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';
@@ -88,6 +89,13 @@ void main() async {
   Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
 
   runApp(const MyApp());
+
+  EasyLoading.instance
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..maskColor = Colors.black.withOpacity(0.5)
+    ..dismissOnTap = false;
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Color(0xFF121A21),
@@ -156,6 +164,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const WelcomePage(),
+      builder: EasyLoading.init(),
     );
   }
 }
