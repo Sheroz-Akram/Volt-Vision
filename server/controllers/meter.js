@@ -9,9 +9,6 @@ const { roboflowInference } = require('../utils/roboflow-inference')
 let uploadImage = async (req, res) => {
   try {
 
-    // Unlink the Original File
-    fs.unlinkSync(path.join(__dirname, `../uploads/${req.file.filename}`));
-
     // Perform Meter OCR
     const response = { value: (await roboflowInference(req.compressedFilePath, 20, 30)).join('') };
     console.log(`Meter Reading Detected: ${response.value}`);
@@ -31,6 +28,7 @@ let uploadImage = async (req, res) => {
       readingValue: readingValue,
     });
   } catch (error) {
+    console.log(error);
     res.status(200).send({ message: error.toString(), success: false });
   }
 };

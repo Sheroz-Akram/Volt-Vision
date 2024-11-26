@@ -51,12 +51,17 @@ class StatementDownloadOption extends StatelessWidget {
   }) async {
     try {
       // Request storage permissions (needed for Android)
-      final permissionStatus = await Permission.storage.request();
-      if (!permissionStatus.isGranted) {
-        onDownloadError("Storage permission denied");
+      final permissionStatus = await Permission.storage.status;
+      if (permissionStatus.isDenied) {
+        var result = await Permission.storage.request();
+        if (result.isDenied) {
+          onDownloadError("Storage permission denied.");
+          return;
+        }
+      } else if (permissionStatus.isPermanentlyDenied) {
+        onDownloadError("Permission Denied Permanently.");
         return;
       }
-
       // Fetch the file
       final response = await http.get(Uri.parse(url));
 
