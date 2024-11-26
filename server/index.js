@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dbConnection = require('./utils/db')
+const fs = require('fs');
 
 require("dotenv").config();
 
@@ -20,6 +21,11 @@ const PORT = "1122"
 const HOST = "127.0.0.1";
 
 dbConnection().catch((error) => console.log(error));
+
+// Create uploads directory if it doesn't exist
+if (!fs.existsSync('uploads')) {
+    fs.mkdirSync('uploads');
+}
 
 app.listen(PORT, HOST, () => {
   console.log(`Server is listening on ${HOST}:${PORT}`);

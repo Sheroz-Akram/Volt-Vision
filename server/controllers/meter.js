@@ -2,25 +2,23 @@ const jwt = require("jsonwebtoken");
 const Users = require("../models/user");
 const generateStatement = require("../utils/generate-statement");
 const secret = process.env.TOKEN_SECRET;
+const fs = require('fs');
 const path = require('path');
 const { roboflowInference } = require('../utils/roboflow-inference')
 
 let uploadImage = async (req, res) => {
   try {
-    if (!req.file) {
-      return res
-        .status(200)
-        .send({ message: "File Not Found.", success: false });
-    }
+
+    // Unlink the Original File
+    fs.unlinkSync(path.join(__dirname, `../uploads/${req.file.filename}`));
 
     // Perform Meter OCR
-    const response = { value: (await roboflowInference(path.join(__dirname, `../uploads/${req.file.filename}`), 20, 50)).join('') };
+    const response = { value: (await roboflowInference(req.compressedFilePath, 20, 30)).join('') };
     console.log(`Meter Reading Detected: ${response.value}`);
     if(isNaN(response.value)) {
       throw new Error('Meter Reading Detection Failed');
     }
     
-
     // Detected Reading Value
     let readingValue = parseInt(response.value);
     if(isNaN(readingValue)) {
@@ -29,7 +27,7 @@ let uploadImage = async (req, res) => {
     res.status(200).send({
       message: "Image Uploaded",
       success: true,
-      filePath: req.file.filename,
+      filePath: req.compressedFilePath,
       readingValue: readingValue,
     });
   } catch (error) {
