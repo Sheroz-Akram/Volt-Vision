@@ -32,27 +32,25 @@ class ElectrcityTip extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: const Color(0xFF9EA2A5)),
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: const Color(0xFF9EA2A5),
+                      fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
-                  height: 10.0,
+                  height: 5.0,
                 ),
                 Text(description,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: const Color(0xFF667A8F))),
+                    textAlign: TextAlign.justify,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: const Color(0xFF667A8F), fontSize: 12)),
                 const SizedBox(
-                  height: 10.0,
+                  height: 5.0,
                 ),
                 Text(savings,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(color: const Color(0xFF667A8F)))
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: const Color(0xFF667A8F),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800))
               ],
             ),
           )

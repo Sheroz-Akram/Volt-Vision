@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app/components/electrcityTip.dart';
 import 'package:flutter/material.dart';
 
@@ -9,66 +11,76 @@ class EnergyTips extends StatefulWidget {
   }
 }
 
-class _EnergyTips extends State<EnergyTips> {
-  int selected = 0;
-
-  List<Map<String, dynamic>> todayTipList = [
+class RandomTips {
+  List<Map<String, dynamic>> orgTipList = [
     {
-      "title": "Thermostat tip",
+      "title": "Switch to LED Bulbs",
       "description":
-          "Based on your energy usage, we recommend setting the thermostat to 68 degrees.",
-      "savings": "You can save \$10 a month",
+          "LED bulbs consume up to 80% less electricity than traditional incandescent bulbs and last longer, saving money on energy and replacements.",
+      "savings": "Save up to 80% on electricity costs!",
       "image": "assets/images/eTip01.png"
     },
     {
-      "title": "Dishwasher tip",
+      "title": "Unplug Devices When Not in Use",
       "description":
-          "Based on your energy usage, we recommend running the dishwasher at night.",
-      "savings": "You can save \$8 a month",
+          "Electronics like chargers, TVs, and microwaves consume energy even when they’re turned off but plugged in. Unplug them to reduce unnecessary electricity usage.",
+      "savings": "Save up to 10% on your energy bill!",
       "image": "assets/images/eTip02.png"
     },
     {
-      "title": "Washer tip",
+      "title": "Use Energy-Efficient Appliances",
       "description":
-          "Based on your energy usage, we recommend running the washer with cold water.",
-      "savings": "You can save \$5 a month",
+          "Opt for appliances with high energy-efficiency ratings (e.g., ENERGY STAR). They use less power while maintaining the same performance level.",
+      "savings": "Save up to 30% on energy usage!",
       "image": "assets/images/eTip03.png"
+    },
+    {
+      "title": "Optimize Cooling and Heating",
+      "description":
+          "Set your air conditioner to a moderate temperature and use fans to circulate air. In winter, use proper insulation to reduce heating needs.",
+      "savings": "Save up to 25% on cooling and heating costs!",
+      "image": "assets/images/eTip04.png"
+    },
+    {
+      "title": "Turn Off Lights When Not Needed",
+      "description":
+          "Make it a habit to turn off lights when leaving a room. Installing motion sensors or timers can also help automate this process.",
+      "savings": "Save up to 15% on your electricity bill!",
+      "image": "assets/images/eTip05.png"
+    },
+    {
+      "title": "Leverage Natural Light and Ventilation",
+      "description":
+          "During the day, open curtains and use sunlight instead of electric lights. Proper ventilation can reduce the need for fans and AC.",
+      "savings": "Save up to 20% on lighting and cooling costs!",
+      "image": "assets/images/eTip06.png"
+    },
+    {
+      "title": "Regular Maintenance of Appliances",
+      "description":
+          "Clean filters in air conditioners, refrigerators, and other appliances regularly. Well-maintained equipment uses less energy to operate efficiently.",
+      "savings": "Save up to 10% on energy consumption!",
+      "image": "assets/images/eTip07.png"
     }
   ];
 
-  List<Map<String, dynamic>> weekTipList = [
-    {
-      "title": "Washer tip",
-      "description":
-          "Based on your energy usage, we recommend running the washer with cold water.",
-      "savings": "You can save \$5 a month",
-      "image": "assets/images/eTip03.png"
-    },
-    {
-      "title": "Thermostat tip",
-      "description":
-          "Based on your energy usage, we recommend setting the thermostat to 68 degrees.",
-      "savings": "You can save \$10 a month",
-      "image": "assets/images/eTip01.png"
-    },
-  ];
+  List<Map<String, dynamic>> getRandomTips(int length) {
+    var random = Random();
+    return List.generate(
+        length, (_) => orgTipList[random.nextInt(orgTipList.length)]);
+  }
+}
 
-  List<Map<String, dynamic>> monthTipList = [
-    {
-      "title": "Thermostat tip",
-      "description":
-          "Based on your energy usage, we recommend setting the thermostat to 68 degrees.",
-      "savings": "You can save \$10 a month",
-      "image": "assets/images/eTip01.png"
-    },
-    {
-      "title": "Dishwasher tip",
-      "description":
-          "Based on your energy usage, we recommend running the dishwasher at night.",
-      "savings": "You can save \$8 a month",
-      "image": "assets/images/eTip02.png"
-    },
-  ];
+class _EnergyTips extends State<EnergyTips> {
+  int selected = 0;
+
+  // Get Tips from Storage
+  RandomTips randomTips = RandomTips();
+
+  // Store the List Tips Randomly
+  List<Map<String, dynamic>> todayTipList = [];
+  List<Map<String, dynamic>> weekTipList = [];
+  List<Map<String, dynamic>> monthTipList = [];
 
   List tipList = [];
 
@@ -76,6 +88,9 @@ class _EnergyTips extends State<EnergyTips> {
   void initState() {
     super.initState();
     setState(() {
+      todayTipList = randomTips.getRandomTips(3);
+      weekTipList = randomTips.getRandomTips(3);
+      monthTipList = randomTips.getRandomTips(3);
       tipList = todayTipList;
     });
   }
