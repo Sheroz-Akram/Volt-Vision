@@ -5,8 +5,7 @@ import 'package:http/http.dart';
 
 class Network {
   // HOST of our Server
-  final String baseUrl =
-      "https://ae18-2a09-bac5-5043-18be-00-277-6.ngrok-free.app";
+  final String baseUrl = "https://just-sloth-real.ngrok-free.app";
 
   // Simple POST Request to Server
   Future<Response> postRequest(
